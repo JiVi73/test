@@ -8,18 +8,32 @@ class NumbersTest {
     private static Boolean max = false;
 
     @Test
-    void testSearch3OrderNumbers() throws Exception {
-
-        //BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        // prvni cislo
+    void testSearch3OrderNumbers235() throws Exception {
         Integer firstNumber = 3;
-        //String[] a = "6 1 5 2 9".split(" "); //159
         String[] a = "2 3 1 5 4 8 9".split(" ");
-        //String[] a = "7 8 1 3 4 5".split(" ");
-        //String[] a = "6 7 1 3 2".split(" ");
         int[] data = getIntArray(a);
         Assertions.assertEquals("[2, 3, 5]", Arrays.toString(get(data, firstNumber)));
         Assertions.assertEquals("[2, 3, 5]", Arrays.toString(get2(data, firstNumber)));
+    }
+
+    @Test
+    void testSearch3OrderNumbers159() throws Exception {
+        Integer firstNumber = 3;
+        String[] a = "6 1 5 2 9".split(" "); //159
+        int[] data = getIntArray(a);
+        Assertions.assertEquals("[1, 5, 9]", Arrays.toString(get(data, firstNumber)));
+        Assertions.assertEquals("[1, 5, 9]", Arrays.toString(get2(data, firstNumber)));
+    }
+
+    @Test
+    void testSearch3OrderNumbers134() throws Exception {
+
+        Integer firstNumber = 3;
+        String[] a = "7 8 1 3 4 5".split(" ");
+        //String[] a = "6 7 1 3 2".split(" ");
+        int[] data = getIntArray(a);
+        Assertions.assertEquals("[1, 3, 4]", Arrays.toString(get(data, firstNumber)));
+        Assertions.assertEquals("[1, 3, 4]", Arrays.toString(get2(data, firstNumber)));
     }
 
     private static Integer convertToInteger(String data) throws Exception {
@@ -100,8 +114,6 @@ class NumbersTest {
         }
         return result;
     }
-
-
 }
 
  
