@@ -10,12 +10,16 @@ import javax.xml.bind.DatatypeConverter;
 
 public class TripleDES {
 
-    private static final String algorithm = "DESede";//
-    private static final String algorithmCipher = "DESede/CBC/NoPadding";
-    private static final char[] hexArray = "0123456789ABCDEF".toCharArray();
+    private static final String ALGORITHM = "DESede";//
+    private static final String ALGORITHM_CIPHER = "DESede/CBC/NoPadding";
+    private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
+
+    private TripleDES(){
+
+    }
 
     private static SecretKey getKey(String keyValue) {
-        return new SecretKeySpec(getKey16bitArray(keyValue), algorithm);
+        return new SecretKeySpec(getKey16bitArray(keyValue), ALGORITHM);
     }
 
     /*
@@ -45,14 +49,14 @@ public class TripleDES {
 
     public static byte[] encrypt(String data, String keyValue) throws Exception {
         byte[] dataBytes = data.getBytes();
-        Cipher cipher = Cipher.getInstance(algorithmCipher);
+        Cipher cipher = Cipher.getInstance(ALGORITHM_CIPHER);
         IvParameterSpec iv = new IvParameterSpec(new byte[8]);
         cipher.init(Cipher.ENCRYPT_MODE, getKey(keyValue), iv);
         return cipher.doFinal(dataBytes);
     }
 
     public static String decrypt(byte[] encryptionBytes, String keyValue) throws Exception {
-        Cipher cipher = Cipher.getInstance(algorithmCipher);
+        Cipher cipher = Cipher.getInstance(ALGORITHM_CIPHER);
         IvParameterSpec iv = new IvParameterSpec(new byte[8]);
         cipher.init(Cipher.DECRYPT_MODE, getKey(keyValue), iv);
         byte[] recoveredBytes = cipher.doFinal(encryptionBytes);
@@ -69,20 +73,20 @@ public class TripleDES {
     }
 
     private static String fillString(String data, int mod, char c) {
-        String result = data;
+        StringBuilder result = new StringBuilder(data);
         while ((result.length() % mod) != 0) {
-            result += c;
+            result.append(c);
         }
-        return result;
+        return result.toString();
     }
 
     private static String getRandomChar(int length) {
-        String result = "";
+        StringBuilder result = new StringBuilder();
         for (int i = 0; i < length; i++) {
             Random rnd = new Random();
-            result += (char) (rnd.nextInt(26) + 'A');
+            result.append((char) (rnd.nextInt(26) + 'A'));
         }
-        return result;
+        return result.toString();
     }
 
     public static byte[] getHexBinary(byte[] data) {
@@ -108,8 +112,8 @@ public class TripleDES {
         char[] hexChars = new char[bytes.length * 2];
         for (int j = 0; j < bytes.length; j++) {
             int v = bytes[j] & 0xFF;
-            hexChars[j * 2] = hexArray[v >>> 4];
-            hexChars[j * 2 + 1] = hexArray[v & 0x0F];
+            hexChars[j * 2] = HEX_ARRAY[v >>> 4];
+            hexChars[j * 2 + 1] = HEX_ARRAY[v & 0x0F];
         }
         return new String(hexChars);
     }

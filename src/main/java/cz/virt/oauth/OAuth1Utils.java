@@ -21,7 +21,7 @@ import javax.xml.bind.DatatypeConverter;
 public class OAuth1Utils {
     public static final String UTF_8 = "UTF-8";
     public static final String OAUTH_START_STRING = "OAuth ";
-    public static final String EQUALS = "=";
+    public static final String S_EQUALS = "=";
     public static final String AMP = "&";
     public static final String COLON_2X_BACKSLASH = "://";
     public static final String ONE_POINT_ZERO = "1.0";
@@ -40,8 +40,8 @@ public class OAuth1Utils {
     public static final String COMMA = ",";
     public static final String DOUBLE_QOUTE = "\"";
     public static final String EMPTY_STRING = "";
-    public static SecureRandom random = new SecureRandom();
-    public static final String validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    public static SecureRandom RANDOM = new SecureRandom();
+    public static final String VALID_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     private PrivateKey privateKey;
     private String consumerKey;
     private String body;
@@ -128,7 +128,7 @@ public class OAuth1Utils {
             }
             int tempCounter = 0;
             for (String value : e.getValue()) {
-                paramString.append(encode(e.getKey())).append(EQUALS).append((value));
+                paramString.append(encode(e.getKey())).append(S_EQUALS).append((value));
                 if (tempCounter != e.getValue().size() - 1) {
                     paramString.append(AMP);
                 }
@@ -149,7 +149,7 @@ public class OAuth1Utils {
         if (params != null) {
             for (String param : params) {
                 try {
-                    String[] keyValuePair = param.split(EQUALS, 0);
+                    String[] keyValuePair = param.split(S_EQUALS, 0);
                     String name = URLDecoder.decode(keyValuePair[0], UTF_8);
                     if (("").equals(name)) {
                         continue;
@@ -241,7 +241,7 @@ public class OAuth1Utils {
 
     private StringBuffer parseSortedSetValues(StringBuffer buffer, String key, Map<String, SortedSet<String>> paramMap) throws Exception {
         for (String value : paramMap.get(key)) {
-            buffer.append(key).append(EQUALS).append(DOUBLE_QOUTE).append(encode(value)).append(DOUBLE_QOUTE);
+            buffer.append(key).append(S_EQUALS).append(DOUBLE_QOUTE).append(encode(value)).append(DOUBLE_QOUTE);
         }
         return buffer;
     }
