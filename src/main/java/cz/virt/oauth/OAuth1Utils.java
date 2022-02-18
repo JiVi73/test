@@ -203,11 +203,7 @@ public class OAuth1Utils {
             signer.initSign(privateKey);
             signer.update(baseString.getBytes(StandardCharsets.UTF_8));
             return DatatypeConverter.printBase64Binary(signer.sign());
-        } catch (InvalidKeyException e) {
-            throw new Exception(e); // user exception
-        } catch (SignatureException e) {
-            throw new Exception(e); // user exception
-        } catch (NoSuchAlgorithmException e) {
+        } catch (InvalidKeyException | SignatureException | NoSuchAlgorithmException e) {
             throw new Exception(e); // user exception
         }
     }
