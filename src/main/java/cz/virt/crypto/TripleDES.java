@@ -1,12 +1,13 @@
 package cz.virt.crypto;
 
+import jakarta.xml.bind.DatatypeConverter;
+
 import java.math.BigInteger;
 import java.util.Random;
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-import javax.xml.bind.DatatypeConverter;
 
 public class TripleDES {
 
@@ -14,7 +15,7 @@ public class TripleDES {
     private static final String ALGORITHM_CIPHER = "DESede/CBC/NoPadding";
     private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
 
-    private TripleDES(){
+    private TripleDES() {
 
     }
 
@@ -96,7 +97,7 @@ public class TripleDES {
     public static String toHexString(String data) {
         byte[] ba = data.getBytes();
         StringBuilder str = new StringBuilder();
-		for (byte b : ba) str.append(String.format("%x", b));
+        for (byte b : ba) str.append(String.format("%x", b));
         return str.toString().toUpperCase();
     }
 

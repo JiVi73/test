@@ -1,5 +1,7 @@
 package cz.virt.oauth;
 
+import jakarta.xml.bind.DatatypeConverter;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLDecoder;
@@ -16,7 +18,7 @@ import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import javax.xml.bind.DatatypeConverter;
+
 
 public class OAuth1Utils {
     public static final String UTF_8 = "UTF-8";
@@ -40,7 +42,7 @@ public class OAuth1Utils {
     public static final String COMMA = ",";
     public static final String DOUBLE_QOUTE = "\"";
     public static final String EMPTY_STRING = "";
-    public static SecureRandom RANDOM = new SecureRandom();
+    public static final SecureRandom SEC_RANDOM = new SecureRandom();
     public static final String VALID_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     private PrivateKey privateKey;
     private String consumerKey;
@@ -148,24 +150,19 @@ public class OAuth1Utils {
         else if (queryString.length() > 0) params = new String[]{queryString};
         if (params != null) {
             for (String param : params) {
-                try {
-                    String[] keyValuePair = param.split(S_EQUALS, 0);
-                    String name = URLDecoder.decode(keyValuePair[0], UTF_8);
-                    if (("").equals(name)) {
-                        continue;
-                    }
-                    String value = keyValuePair.length > 1 ? URLDecoder.decode(keyValuePair[1], UTF_8) : EMPTY_STRING;
-                    if (map.containsKey(name)) {
-                        SortedSet<String> tempSet = map.get(name);
-                        tempSet.add(value);
-                    } else {
-                        SortedSet<String> tmpSet = new TreeSet<>();
-                        tmpSet.add(value);
-                        map.put(name, tmpSet);
-                    }
-                } catch (UnsupportedEncodingException e) {
-                    throw new Exception(e); // user exception
-                    // ignore this parameter if it can't be decoded
+                String[] keyValuePair = param.split(S_EQUALS, 0);
+                String name = URLDecoder.decode(keyValuePair[0], StandardCharsets.UTF_8);
+                if (("").equals(name)) {
+                    continue;
+                }
+                String value = keyValuePair.length > 1 ? URLDecoder.decode(keyValuePair[1], StandardCharsets.UTF_8) : EMPTY_STRING;
+                if (map.containsKey(name)) {
+                    SortedSet<String> tempSet = map.get(name);
+                    tempSet.add(value);
+                } else {
+                    SortedSet<String> tmpSet = new TreeSet<>();
+                    tmpSet.add(value);
+                    map.put(name, tmpSet);
                 }
             }
         }

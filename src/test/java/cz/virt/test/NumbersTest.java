@@ -2,10 +2,10 @@ package cz.virt.test;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
 import java.util.Arrays;
 
 class NumbersTest {
-    private static Boolean max = false;
 
     @Test
     void testSearch3OrderNumbers235() throws Exception {
@@ -13,7 +13,6 @@ class NumbersTest {
         String[] a = "2 3 1 5 4 8 9".split(" ");
         int[] data = getIntArray(a);
         Assertions.assertEquals("[2, 3, 5]", Arrays.toString(get(data, firstNumber)));
-        Assertions.assertEquals("[2, 3, 5]", Arrays.toString(get2(data, firstNumber)));
     }
 
     @Test
@@ -22,7 +21,6 @@ class NumbersTest {
         String[] a = "6 1 5 2 9".split(" "); //159
         int[] data = getIntArray(a);
         Assertions.assertEquals("[1, 5, 9]", Arrays.toString(get(data, firstNumber)));
-        Assertions.assertEquals("[1, 5, 9]", Arrays.toString(get2(data, firstNumber)));
     }
 
     @Test
@@ -33,7 +31,6 @@ class NumbersTest {
         //String[] a = "6 7 1 3 2".split(" ");
         int[] data = getIntArray(a);
         Assertions.assertEquals("[1, 3, 4]", Arrays.toString(get(data, firstNumber)));
-        Assertions.assertEquals("[1, 3, 4]", Arrays.toString(get2(data, firstNumber)));
     }
 
     private static Integer convertToInteger(String data) throws Exception {
@@ -44,40 +41,7 @@ class NumbersTest {
         }
     }
 
-    // varianta 1
-    private static int[] get(int[] data, Integer count) {
-        int[] result = new int[count];
-        for (int index = 0; index < data.length; index++) {
-            result = search(data, index, count);
-            if (max) break;
-        }
-        return result;
-    }
-
-    //varianta 1
-    private static int[] search(int[] data, Integer index, Integer count) {
-        int bufferPos = 0;
-        int[] buffer = new int[count];
-        for (int i = index; i < data.length; i++) {
-            if (bufferPos > 0) {
-                if (buffer[bufferPos - 1] < data[i]) {
-                    buffer[bufferPos] = data[i];
-                    bufferPos++;
-                }
-            } else {
-                buffer[bufferPos] = data[i];
-                bufferPos++;
-            }
-            if (bufferPos == count) {
-                max = true;
-                break;
-            }
-        }
-        return buffer;
-    }
-
-    // varianta 2
-    private static int[] get2(int[] data, Integer count) throws Exception {
+    private static int[] get(int[] data, Integer count) throws Exception {
         int[] buffer = new int[count];
         int bufferPos = 0;
         for (int index = 0; index < data.length; index++) {
